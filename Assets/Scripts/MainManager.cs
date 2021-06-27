@@ -9,7 +9,7 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
-
+    public Text BestScoreText;
     public Text ScoreText;
     public GameObject GameOverText;
     
@@ -36,6 +36,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        BestScoreText.text = "Best Score : " + StartMenuManager.Instance.bestScoreName + " : " + StartMenuManager.Instance.bestScore;
     }
 
     private void Update()
@@ -72,5 +73,12 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if(m_Points >= StartMenuManager.Instance.bestScore)
+        {
+            StartMenuManager.Instance.bestScore = m_Points;
+            StartMenuManager.Instance.bestScoreName = StartMenuManager.Instance.NameInput.text;
+            StartMenuManager.Instance.SaveBestScore();
+            BestScoreText.text = "Best Score : " + StartMenuManager.Instance.bestScoreName + " : " + StartMenuManager.Instance.bestScore;
+        }
     }
 }
